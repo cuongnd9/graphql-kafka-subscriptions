@@ -1,19 +1,30 @@
-import { PubSub } from 'graphql-subscriptions';
+import { Kafka } from 'kafkajs';
+import { KafkaPubSub } from 'graphql-kafka-subscriptions';
 
-const pubsub = new PubSub();
+const kafka = new Kafka({
+  clientId: 'the4pet',
+  brokers: ['localhost:9092'],
+});
+
+const producer = kafka.producer();
+
+producer.connect();
+producer.send({
+  topic: 'the4pet',
+  messages: [],
+});
+
+const pubsub = new KafkaPubSub({
+  topic: 'the4pet',
+  host: 'localhost',
+  port: '9092',
+  globalConfig: {}, // options passed directly to the consumer and producer
+});
+
 const CHAT_CHANNEL = 'ABC_XYZ';
 let chats = [
   {
-    id: '1', from: 'admin', content: 'testing 1', createdAt: '',
-  },
-  {
-    id: '2', from: 'admin', content: 'testing 2', createdAt: '',
-  },
-  {
-    id: '3', from: 'admin', content: 'testing 3', createdAt: '',
-  },
-  {
-    id: '4', from: 'admin', content: 'testing 4', createdAt: '',
+    id: '1', from: '103cuong', content: 'hi', createdAt: '',
   },
 ];
 

@@ -1,3 +1,1 @@
-# typescript-template
-
-🌱 TypeScript template
+# graphql-kafka-subscriptions
