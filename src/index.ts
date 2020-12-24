@@ -6,7 +6,7 @@ import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { schema } from './schema';
 
-const PORT = 50000;
+const PORT = 5000;
 const app = express();
 
 app.use('*', cors({ origin: `http://localhost:${PORT}` }));

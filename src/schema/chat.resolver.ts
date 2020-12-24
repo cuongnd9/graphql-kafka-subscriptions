@@ -4,15 +4,20 @@ import { KafkaPubSub } from 'graphql-kafka-subscriptions';
 const kafka = new Kafka({
   clientId: 'the4pet',
   brokers: ['localhost:9092'],
+  retry: {
+    initialRetryTime: 100,
+    retries: 100,
+  },
 });
 
-const producer = kafka.producer();
-
-producer.connect();
-producer.send({
-  topic: 'the4pet',
-  messages: [],
-});
+const admin = kafka.admin();
+// eslint-disable-next-line promise/catch-or-return
+admin
+  .connect()
+  .then(() => admin.createTopics({
+    topics: [{ topic: 'the4pet' }],
+    waitForLeaders: true,
+  }));
 
 const pubsub = new KafkaPubSub({
   topic: 'the4pet',
